@@ -7,19 +7,20 @@
 class ContactPro : public Contact
 {
     public:
-        ContactPro(int, string, string, char, string, string , string, int, string, string );
+        ContactPro(int, char*, char*, char, char*, char* , char*, int, char*, char* );
         virtual ~ContactPro();
-        string GetnomEntreprise() { return nomEntreprise; }
-        void SetnomEntreprise(string val) { nomEntreprise= val; }
-        string Getemail() { return email; }
-        void Setemail(string val) { email = val; }
+
+        char* GetnomEntreprise() { return nomEntreprise; }
+        void SetnomEntreprise(char* val) { nomEntreprise= val; }
+        char* Getemail() { return email; }
+        void Setemail(char* val) { email = val; }
         string infos() override;
 
     protected:
 
     private:
-        string nomEntreprise;
-        string email;
+        char* nomEntreprise;
+        char* email;
 };
 
 #endif // ContactPRO_H

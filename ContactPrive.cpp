@@ -1,7 +1,7 @@
 #include "ContactPrive.h"
 
 
-ContactPrive::ContactPrive(int id, string nom, string prenom, char genre, string rue, string complement, int cp, string ville, string date )
+ContactPrive::ContactPrive(int id, char* nom, char* prenom, char genre, char* rue, char* complement, int cp, char* ville, char* date )
     :Contact(id,nom,prenom,genre,rue,complement,cp,ville)
 {
 

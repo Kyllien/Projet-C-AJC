@@ -1,7 +1,7 @@
 #include "ContactPro.h"
 
 
-ContactPro::ContactPro(int id, string nom, string prenom, char genre, string entreprise, string rue, string complement, int cp, string ville, string email )
+ContactPro::ContactPro(int id, char* nom, char* prenom, char genre, char* entreprise, char* rue, char* complement, int cp, char* ville, char* email )
     :Contact(id,nom,prenom,genre,rue,complement,cp,ville)
 {
     this->nomEntreprise=entreprise;

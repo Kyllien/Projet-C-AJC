@@ -3,6 +3,9 @@
 #include "ContactPrive.h"
 #include "sqlite3.h"
 #include <string>
+#include <cstring>
+
+#define DB "dbContacts.db"
 
 void addContact(Contact*);
 sqlite3* ouvertureDB();
@@ -12,19 +15,21 @@ int main()
 {
 
 
+    // création instances de contacts:
     ContactPro* pro1 = new ContactPro(1,"Wallace","Marcel",'M',"Renault","rue du quai","",78888,"Guyancourt",
                     "marcel.wallace@renault.com");
 
     cout<<*pro1<<endl;
 
-    ContactPrive prive1(2,"willis","bruce",'M',"hollywood Bvrd","",555444,"Los Angeles"
-                    ,"17/10/59");
+    ContactPrive prive1(2,"willis","bruce",'M',"hollywood Bvrd","",55544,"Los Angeles"
+                    ,"1959-10-17");
 
 
     cout<<prive1<<endl;
 
-    addContact(pro1);
 
+    // Ajouter les contacts à la BDD:
+    addContact(pro1);
     addContact(&prive1);
 
 
@@ -37,39 +42,84 @@ void addContact(Contact* monContact)
 {
 
     sqlite3 *db = ouvertureDB();
-
+    int rc;
     sqlite3_stmt *stmt=NULL;
 
+/*
+0    IdContact
+1    Nom
+2    Prenom
+3    Sexe
+4    Entreprise
+5    rue
+6    Complement
+7    cp
+8    Ville
+9    mail
+10   dtNaissance
+*/
+
     //ID Nom Prenom Sexe Entreprise rue Complement cp Ville mail dtNaissance
-    char *requete = "insert into contacts values (NULL,?,?,?,?,?,?,?,?,?,?)";
+    //0  1   2      3    4          5   6          7  8     9     10
+    //char* requete = "insert into CONTACTS values (NULL,'WALLACE','Marcel','M','Renault','69 rue du quai','',78888,'GUYANCOURT','marcel.wallace@hotmail.com','');";
+    char* requete= "insert into CONTACTS (IdContact,Nom,Prenom,Sexe,Entreprise,rue,Complement,cp,Ville,mail,dtNaissance) \
+                        values (NULL, ?,?,?,?,?,?,?,?,?,?);";
+    // preparer la requete
+    rc = sqlite3_prepare_v2(db,requete,500, &stmt,NULL);
+    if (rc != SQLITE_OK)
+        fprintf(stderr, "Error preparing statement: %s\n", sqlite3_errmsg(db));
+
+
+    // valoriser les champs connus (niveau Contact)
+    sqlite3_bind_text(stmt,1,monContact->Getnom(),strlen(monContact->Getnom()),NULL);
+    sqlite3_bind_text(stmt,2,monContact->Getprenom(),strlen(monContact->Getprenom()),NULL);
+    sqlite3_bind_text(stmt,3,monContact->Getgenre(),1,NULL);
+    sqlite3_bind_text(stmt,5,monContact->Getrue(),strlen(monContact->Getrue()),NULL);
+    sqlite3_bind_text(stmt,6,monContact->Getcomplement(),strlen(monContact->Getcomplement()),NULL);
+    sqlite3_bind_int(stmt,7,monContact->Getcp());
+    sqlite3_bind_text(stmt,8,monContact->Getville(),strlen(monContact->Getville()),NULL);
 
 
 
     // Spécialisation requête suivant type de contact Pro ou Privé
-    ContactPro* contact=dynamic_cast<ContactPro*>(monContact);
+    ContactPro* cpro=dynamic_cast<ContactPro*>(monContact);
 
-    if (sqlite3_prepare_v2(db,requete,200, &stmt,NULL)== SQLITE_OK)
+    if (cpro) //l'objet casté est bien de type ContactPro
     {
-
-        if (contact!= nullptr) //l'objet casté est bien de type ContactPro
-        {
-            // création requete pour ajout d'un contact pro;
-            cout<<"contact PRO!"<<endl;
-        }
-        else
-        {
-            cout<<"contact PRIVE!"<<endl;
-            // création requete pour ajout d'un contact privé;
-        }
-
+        // création requete pour ajout d'un contact pro;
+        cout<<"contact PRO!"<<endl;
+        // ajout d'email et nom entreprise
+        sqlite3_bind_text(stmt,4,cpro->GetnomEntreprise(),strlen(cpro->GetnomEntreprise()),NULL);
+        sqlite3_bind_text(stmt,9,cpro->Getemail(),strlen(cpro->Getemail()),NULL);
+        sqlite3_bind_null(stmt,10);
     }
+
     else
-        cout<<"problem w/ sql request"<<endl;
+    {
+        ContactPrive* cprive=dynamic_cast<ContactPrive*>(monContact);
+        if (cprive)
+        {
+            // création requete pour ajout d'un contact privé;
+            cout<<"contact PRIVE!"<<endl;
+            // ajout de date de naissance
+            sqlite3_bind_text(stmt,10,cprive->GetdateNaissance(),strlen(cprive->GetdateNaissance()),NULL);
+            sqlite3_bind_null(stmt,4);
+            sqlite3_bind_null(stmt,9);
+        }
+    }
 
 
 
-//    sqlite3_bind_text(stmt,1,"MDR 2023",strlen("MDR 20023"),NULL);
-//    sqlite3_bind_int(stmt,2,348);
+
+    rc = sqlite3_step(stmt);
+    printf("rc:%d",rc);
+
+    rc = sqlite3_finalize(stmt);
+    if (rc != SQLITE_OK) {
+        fprintf(stderr, "Error finalizing statement: %s\n", sqlite3_errmsg(db));
+//        return 1;
+    }
+
 
     fermetureDB(db);
 
@@ -86,7 +136,7 @@ sqlite3* ouvertureDB()
         char *errmsg=NULL;       // pointeur vers err
 
 
-        rc = sqlite3_open("dbContacts.db", &db);
+        rc = sqlite3_open(DB, &db);
 
         if (rc != SQLITE_OK) {
             printf("ERREUR Open : %s\n", sqlite3_errmsg(db));
@@ -111,8 +161,12 @@ void fermetureDB(sqlite3* db)
         int rc;
         rc = sqlite3_close(db);
         if (rc != SQLITE_OK) {
-            printf("ERREUR Open : %s\n", sqlite3_errmsg(db));
+            printf("ERREUR close : %s\n", sqlite3_errmsg(db));
 
+        }
+        else
+        {
+            cout<<"fermeture DB OK."<<endl;
         }
     }
     catch(...)
