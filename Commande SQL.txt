@@ -1,0 +1,35 @@
+Nom des champs de la db :
+IdContact|Nom|Prenom|Sexe|Entreprise|rue|Complement|cp|Ville|mail|dtNaissance
+
+1- 
+Lister les contacts privé :
+SELECT * FROM contacts WHERE entreprise is null;
+
+Lister les contacts pro :
+SELECT * FROM contacts WHERE entreprise not null;
+
+Lister tous les contacts :
+SELECT * FROM contacts;
+
+
+2-
+Recherche de contact par nom (X):
+SELECT * FROM contacts WHERE nom="X"; #Pas oublier de mettre en maj le nom quand input
+
+Recherche de contact par ville (X):
+SELECT * FROM contacts WHERE ville="X"; #Pas oublier de mettre en maj la ville quand input
+
+Recherche de contact par nom (X) et par ville (Y):
+SELECT * FROM contacts WHERE nom="X" and ville="Y"; #Mettre en majuscule les inputs
+
+
+3-
+Ajouter un contact:
+#Penser à récupérer le dernier ID afin de faire +1 sur celui-ci de manière automatique
+#utiliser les NULL afin de différencier pro et perso
+INSERT INTO contacts VALUES(ID,Nom,Prenom,Sexe,Entreprise,rue,Complement,cp,Ville,mail,dtNaissance);
+
+
+4-
+Supprimer un contact via son identifiant (X):
+DELETE FROM contacts where IdContact=X;
