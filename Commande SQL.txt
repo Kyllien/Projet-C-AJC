@@ -25,7 +25,6 @@ SELECT * FROM contacts WHERE nom="X" and ville="Y"; #Mettre en majuscule les inp
 
 3-
 Ajouter un contact:
-#Penser à récupérer le dernier ID afin de faire +1 sur celui-ci de manière automatique
 #utiliser les NULL afin de différencier pro et perso
 INSERT INTO contacts VALUES(ID,Nom,Prenom,Sexe,Entreprise,rue,Complement,cp,Ville,mail,dtNaissance);
 
