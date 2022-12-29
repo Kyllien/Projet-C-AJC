@@ -3,3 +3,8 @@
 *.db
 
 *.xlsx
+
+# All .exe from sqlite
+sqldiff.exe
+sqlite3.exe
+sqlite3_analyzer.exe
