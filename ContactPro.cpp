@@ -1,11 +1,10 @@
 #include "ContactPro.h"
 
 
-ContactPro::ContactPro(int id, string nom, string prenom, char genre, string entreprise, string adresse, string email )
-    :Contact(id,nom,prenom,genre)
+ContactPro::ContactPro(int id, string nom, string prenom, char genre, string entreprise, string rue, string complement, int cp, string ville, string email )
+    :Contact(id,nom,prenom,genre,rue,complement,cp,ville)
 {
     this->nomEntreprise=entreprise;
-    this->adresseEntreprise=adresse;
     this->email=email;
 }
 
@@ -23,7 +22,7 @@ string ContactPro::infos()
     oss  << endl << "Prenom " << this->Getprenom();
     oss  << endl << "genre " << this->Getgenre();
     oss << endl << "entreprise "<<this->GetnomEntreprise();
-    oss << endl << "adresse "<<this->GetadresseEntreprise();
+    oss << endl << "adresse entreprise "<<this->Getrue()<<" "<<this->Getcomplement()<<" "<<this->Getcp()<<" "<<this->Getville();
     oss << endl << "email "<<this->Getemail();
     return oss.str();
 }
