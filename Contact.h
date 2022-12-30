@@ -12,25 +12,25 @@ using namespace std;
 class Contact
 {
     public:
-        Contact(int,char*,char*,char, char* , char*, int, char*);
+        Contact(int,string,string,char,string , string, int, string);
         virtual ~Contact();
 
         int Getid() { return id; }
         void Setid(int val) { id = val; }
-        char* Getnom() { return nom; }
-        void Setnom(char* val) { nom = val; }
-        char* Getprenom() { return prenom; }
-        void Setprenom(char* val) { prenom = val; }
+        char* Getnom() {return &(this->nom[0]);}
+        void Setnom(string val) { nom = val; }
+        char* Getprenom() { return &(prenom[0]); }
+        void Setprenom(string val) { prenom = val; }
         char* Getgenre() ;
         void Setgenre(char val) { genre = val; }
-        char* Getrue() { return rue; }
-        void Setrue(char* val) { rue = val; }
-        char* Getcomplement() { return complement; }
-        void Setcomplement(char* val) { complement = val; }
+        char* Getrue() { return &rue[0]; }
+        void Setrue(string val) { rue = val; }
+        char* Getcomplement() { return &complement[0]; }
+        void Setcomplement(string val) { complement = val; }
         int Getcp() { return cp; }
         void Setcp(int val) { cp = val; }
-        char* Getville() { return ville; }
-        void Setville(char* val) { ville= val; }
+        char* Getville() { return &ville[0]; }
+        void Setville(string val) { ville= val; }
 
 
         virtual string infos() =0;
@@ -39,13 +39,13 @@ class Contact
 
     private:
         int id;
-        char*  nom;
-        char* prenom;
+        string nom;
+        string prenom;
         char genre;
-        char* rue;
-        char* complement;
+        string rue;
+        string complement;
         int cp;
-        char* ville;
+        string ville;
 };
 
 ostream& operator<<(ostream& sortie, Contact& p);

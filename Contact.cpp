@@ -1,6 +1,6 @@
 #include "Contact.h"
 
-Contact::Contact(int id,char* nom, char* prenom,char genre,char* rue, char* complement, int cp, char* ville)
+Contact::Contact(int id,string nom,string prenom,char genre,string rue,string complement, int cp, string ville)
 {
     this->id=id;
     this->nom=nom;

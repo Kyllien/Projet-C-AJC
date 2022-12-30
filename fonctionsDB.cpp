@@ -12,8 +12,10 @@ void addContact(Contact* monContact)
 
     //ID Nom Prenom Sexe Entreprise rue Complement cp Ville mail dtNaissance
     //0  1   2      3    4          5   6          7  8     9     10
-    char* requete= "insert into CONTACTS (IdContact,Nom,Prenom,Sexe,Entreprise,rue,Complement,cp,Ville,mail,dtNaissance) \
+    string req = "insert into CONTACTS (IdContact,Nom,Prenom,Sexe,Entreprise,rue,Complement,cp,Ville,mail,dtNaissance) \
                         values (NULL, ?,?,?,?,?,?,?,?,?,?);";
+
+    char* requete = &req[0];
 
     // preparer la requete
     rc = sqlite3_prepare_v2(db,requete,500, &stmt,NULL);
@@ -91,7 +93,7 @@ sqlite3* ouvertureDB()
     {
         sqlite3 *db=NULL;        // connection Base
         int rc;             // code retour
-        char *errmsg=NULL;       // pointeur vers err
+//        char *errmsg=NULL;       // pointeur vers err
 
 
         rc = sqlite3_open(DB, &db);
@@ -110,6 +112,7 @@ sqlite3* ouvertureDB()
     catch(const MonException& ex)
     {
         cout<<endl<< "MonException :" << ex.what() <<endl;
+        return nullptr;
     }
 
 }

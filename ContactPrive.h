@@ -7,10 +7,10 @@
 class ContactPrive : public Contact
 {
     public:
-        ContactPrive(int,char*,char*,char,char* , char*, int, char*,char*);
+        ContactPrive(int,string,string,char,string ,string, int,string,string);
         virtual ~ContactPrive();
 
-        char* GetdateNaissance() { return dateNaissance; }
+        char* GetdateNaissance() { return &dateNaissance[0]; }
         void SetdateNaissance(char* val) { dateNaissance = val; }
 
         string infos() override;
@@ -19,7 +19,7 @@ class ContactPrive : public Contact
 
     private:
 
-        char* dateNaissance;
+        string dateNaissance;
 };
 
 #endif // ContactPRIVE_H
