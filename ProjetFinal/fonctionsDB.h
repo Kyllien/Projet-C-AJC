@@ -17,7 +17,7 @@
 
 #define DB "donnee/dbContacts.db"
 
-void get_recherche(string, string);
+
 void get_table(const char *);
 void supprimerElement(int);
 void addContact(Contact*);
