@@ -21,9 +21,11 @@ int main()
 {
     // Declaration Variables
     bool quit = false;
-    bool quit2 = false;
+    bool quit1;
+    bool quit2;
     bool quit3;
     bool quitComplement;
+    int choice1;
     int choice2;
     int choice3;
     int choicePro;
@@ -62,18 +64,51 @@ int main()
         {
             // Liste les contacts
             case 1:
-                get_table();
+                do
+                {
+                    std::cout << "\n1. Afficher tous les contacts" << std::endl;
+                    std::cout << "2. Afficher les contacts pro " << std::endl;
+                    std::cout << "3. Afficher les contacts prive " << std::endl;
+
+                    std::cout << "Choisissez une option (1|2|3) : ";
+                    std::cin >> choice1;
+                    quit1 = false;
+                    if (choice1 == 1)
+                    {
+                        const char *sql = "SELECT * FROM contacts";
+                        get_table(sql);
+
+                        quit1 = true;
+                    }
+                    else if (choice1 == 2)
+                    {
+                        const char *sql = "SELECT * FROM contacts WHERE entreprise not null";
+                        get_table(sql);
+                        quit1 = true;
+                    }
+                    else if (choice1 == 3)
+                    {
+                        const char *sql = "SELECT * FROM contacts WHERE entreprise is null";
+                        get_table(sql);
+                        quit1 = true;
+                    }
+
+                }while(!quit1);
+
                 break;
 
             // Recherche à partir de critères
             case 2:
-                while (!quit2)
+                do
                 {
+                    quit2 = false;
                     std::cout << "\n1. Rechercher par nom" << std::endl;
                     std::cout << "2. Rechercher par ville" << std::endl;
 
 
                     std::cout << "Choisissez une option (1|2) : ";
+                    std::cin.clear(); // réinitialise les indicateurs d'erreur de cin
+                    std::cin.ignore(INT_MAX, '\n'); // ignore la ligne entrée
                     std::cin >> choice2;
 
                     // Recherche par le nom
@@ -82,6 +117,9 @@ int main()
                         std::cout << "Quel est le nom que vous souhaiter rechercher ?\n" ;
                         std::cin >> nom;
                         nom = to_upper(nom);
+                        const char *msg = "SELECT * FROM contacts WHERE nom='";
+                        const char *sql = strdup((msg + nom + "'").c_str());
+                        get_table(sql);
                         quit2 = true;
                     }
                     // Recherche par la ville
@@ -90,6 +128,9 @@ int main()
                         std::cout << "Quelle est la ville que vous souhaiter rechercher ?\n" ;
                         std::cin >> ville;
                         ville = to_upper(ville);
+                        const char *msg = "SELECT * FROM contacts WHERE ville='";
+                        const char *sql = strdup((msg + ville + "'").c_str());
+                        get_table(sql);
                         quit2 = true;
                     }
                     // Exceptions
@@ -98,7 +139,7 @@ int main()
                         std::cout << "L'option choisie n'est pas la bonne" << std::endl;
                     }
 
-                }
+                }while(!quit2);
                 break;
 
             case 3:
@@ -129,7 +170,9 @@ int main()
 
 
                 std::cout << "Entrez le libelle de rue : ";
-                std::cin >> libelle;
+                std::cin.clear(); // réinitialise les indicateurs d'erreur de cin
+                std::cin.ignore(INT_MAX, '\n'); // ignore la ligne entrée
+                std::getline(cin,libelle);
 
                 // Gestion exception Complement d'adresse
                 do
@@ -141,7 +184,9 @@ int main()
                     {
                         quitComplement = false;
                         std::cout << "Entrez un complement d adresse : ";
-                        std::cin >> complement;
+                        std::cin.clear(); // réinitialise les indicateurs d'erreur de cin
+                        std::cin.ignore(INT_MAX, '\n'); // ignore la ligne entrée
+                        std::getline(cin,complement);
                     }
                     else if (choiceComp == 2)
                     {
@@ -156,7 +201,9 @@ int main()
                 std::cin >> codeP;
 
                 std::cout << "Entrez une ville : ";
-                std::cin >> ville;
+                std::cin.clear(); // réinitialise les indicateurs d'erreur de cin
+                std::cin.ignore(INT_MAX, '\n'); // ignore la ligne entrée
+                std::getline(cin,ville);
                 ville = to_upper(ville);
 
                 // COmpte pro ou privé
@@ -172,7 +219,9 @@ int main()
                         std::cin >> mail;
 
                         std::cout << "Entrez une entreprise : ";
-                        std::cin >> entreprise;
+                        std::cin.clear(); // réinitialise les indicateurs d'erreur de cin
+                        std::cin.ignore(INT_MAX, '\n'); // ignore la ligne entrée
+                        std::getline(cin,entreprise);
                         entreprise = to_upper(entreprise);
 
                         // création instances de contacts:

@@ -7,13 +7,6 @@ using namespace std;
 // Fonction qui permet la recherche et l'affichage de la recherche
 void get_recherche(string choice, string attribut)
 {
-
-}
-
-
-// Fonction qui permet la lecture de la bdd et l'afficher
-void get_table()
-{
     sqlite3 *db = ouvertureDB();
 
     // Récupérer la table
@@ -23,7 +16,21 @@ void get_table()
     if (rc)
     {
         cerr << "Erreur lors de la préparation de la requête : " << sqlite3_errmsg(db) << endl;
+    }
+}
 
+
+// Fonction qui permet la lecture de la bdd et l'afficher en fonction de la requete
+void get_table(const char *sql)
+{
+    sqlite3 *db = ouvertureDB();
+
+    // Récupérer la table
+    sqlite3_stmt *stmt;
+    int rc = sqlite3_prepare_v2(db, sql, -1, &stmt, nullptr);
+    if (rc)
+    {
+        cerr << "Erreur lors de la préparation de la requête : " << sqlite3_errmsg(db) << endl;
     }
 
     // Parcourir les lignes de la table
