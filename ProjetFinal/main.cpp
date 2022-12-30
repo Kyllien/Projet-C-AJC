@@ -114,16 +114,17 @@ int main()
     // MENU
     while (!quit)
     {
-        std::cout << "\n1. Lister les contacts" << std::endl;
-        std::cout << "2. Rechercher a partir de certains criteres (nom ou ville)" << std::endl;
-        std::cout << "3. Ajouter un contact" << std::endl;
-        std::cout << "4. Supprimer un contact" << std::endl;
-        std::cout << "5. Quitter" << std::endl;
+        cout << "\nPour ajouter des contacts a partir de fichiers .csv, les ajouter dans le dossier /donnee" << endl;
+        cout << "\n1. Lister les contacts" << endl;
+        cout << "2. Rechercher a partir de certains criteres (nom ou ville)" << endl;
+        cout << "3. Ajouter un contact" << endl;
+        cout << "4. Supprimer un contact" << endl;
+        cout << "5. Quitter" << endl;
 
         int choice;
-        std::cout << "Choisissez une option (1|2|3|4|5) : ";
+        cout << "Choisissez une option (1|2|3|4|5) : ";
         fflush(stdin);
-        std::cin >> choice;
+        cin >> choice;
 
         switch (choice)
         {
@@ -131,12 +132,12 @@ int main()
             case 1:
                 do
                 {
-                    std::cout << "\n1. Afficher tous les contacts" << std::endl;
-                    std::cout << "2. Afficher les contacts pro " << std::endl;
-                    std::cout << "3. Afficher les contacts prive " << std::endl;
+                    cout << "\n1. Afficher tous les contacts" << endl;
+                    cout << "2. Afficher les contacts pro " << endl;
+                    cout << "3. Afficher les contacts prive " << endl;
 
-                    std::cout << "Choisissez une option (1|2|3) : ";
-                    std::cin >> choice1;
+                    cout << "Choisissez une option (1|2|3) : ";
+                    cin >> choice1;
                     quit1 = false;
                     if (choice1 == 1)
                     {
@@ -167,20 +168,20 @@ int main()
                 do
                 {
                     quit2 = false;
-                    std::cout << "\n1. Rechercher par nom" << std::endl;
-                    std::cout << "2. Rechercher par ville" << std::endl;
+                    cout << "\n1. Rechercher par nom" << endl;
+                    cout << "2. Rechercher par ville" << endl;
 
 
-                    std::cout << "Choisissez une option (1|2) : ";
-                    std::cin.clear(); // réinitialise les indicateurs d'erreur de cin
-                    std::cin.ignore(INT_MAX, '\n'); // ignore la ligne entrée
-                    std::cin >> choice2;
+                    cout << "Choisissez une option (1|2) : ";
+                    cin.clear(); // réinitialise les indicateurs d'erreur de cin
+                    cin.ignore(INT_MAX, '\n'); // ignore la ligne entrée
+                    cin >> choice2;
 
                     // Recherche par le nom
                     if (choice2 == 1)
                     {
-                        std::cout << "Quel est le nom que vous souhaiter rechercher ?\n" ;
-                        std::cin >> nom;
+                        cout << "Quel est le nom que vous souhaiter rechercher ?\n" ;
+                        cin >> nom;
                         nom = to_upper(nom);
                         const char *msg = "SELECT * FROM contacts WHERE nom='";
                         const char *sql = strdup((msg + nom + "'").c_str());
@@ -190,8 +191,8 @@ int main()
                     // Recherche par la ville
                     else if (choice2 == 2)
                     {
-                        std::cout << "Quelle est la ville que vous souhaiter rechercher ?\n" ;
-                        std::cin >> ville;
+                        cout << "Quelle est la ville que vous souhaiter rechercher ?\n" ;
+                        cin >> ville;
                         ville = to_upper(ville);
                         const char *msg = "SELECT * FROM contacts WHERE ville='";
                         const char *sql = strdup((msg + ville + "'").c_str());
@@ -201,26 +202,26 @@ int main()
                     // Exceptions
                     else
                     {
-                        std::cout << "L'option choisie n'est pas la bonne" << std::endl;
+                        cout << "L'option choisie n'est pas la bonne" << endl;
                     }
 
                 }while(!quit2);
                 break;
 
             case 3:
-                std::cout << "Entrez un nom : ";
-                std::cin >> nom;
+                cout << "Entrez un nom : ";
+                cin >> nom;
                 nom = to_upper(nom);
 
-                std::cout << "Entrez un prenom : ";
-                std::cin >> prenom;
+                cout << "Entrez un prenom : ";
+                cin >> prenom;
                 prenom = capitalize(prenom);
 
                 // Gestion exceptions pour le sexe
                 do
                 {
-                    std::cout << "Entrez le sexe (M/F) : ";
-                    std::cin >> sexe;
+                    cout << "Entrez le sexe (M/F) : ";
+                    cin >> sexe;
                     sexe = toupper(sexe);
                     if (sexe == 'M' | sexe == 'F')
                     {
@@ -228,30 +229,30 @@ int main()
                     }
                     else
                     {
-                        std::cerr << "Erreur dans le format du sexe\n" << std::endl;
+                        cerr << "Erreur dans le format du sexe\n" << endl;
                         bool_sexe = true;
                     }
                 }while(bool_sexe);
 
 
-                std::cout << "Entrez le libelle de rue : ";
-                std::cin.clear(); // réinitialise les indicateurs d'erreur de cin
-                std::cin.ignore(INT_MAX, '\n'); // ignore la ligne entrée
-                std::getline(cin,libelle);
+                cout << "Entrez le libelle de rue : ";
+                cin.clear(); // réinitialise les indicateurs d'erreur de cin
+                cin.ignore(INT_MAX, '\n'); // ignore la ligne entrée
+                getline(cin,libelle);
 
                 // Gestion exception Complement d'adresse
                 do
                 {
                     quitComplement = true;
-                    std::cout << "Il y a t il un complement d adresse (1 = Oui / 2 = Non) ? ";
-                    std::cin >> choiceComp;
+                    cout << "Il y a t il un complement d adresse (1 = Oui / 2 = Non) ? ";
+                    cin >> choiceComp;
                     if (choiceComp == 1)
                     {
                         quitComplement = false;
-                        std::cout << "Entrez un complement d adresse : ";
-                        std::cin.clear(); // réinitialise les indicateurs d'erreur de cin
-                        std::cin.ignore(INT_MAX, '\n'); // ignore la ligne entrée
-                        std::getline(cin,complement);
+                        cout << "Entrez un complement d adresse : ";
+                        cin.clear(); // réinitialise les indicateurs d'erreur de cin
+                        cin.ignore(INT_MAX, '\n'); // ignore la ligne entrée
+                        getline(cin,complement);
                     }
                     else if (choiceComp == 2)
                     {
@@ -262,31 +263,31 @@ int main()
 
 
                 // A FAIRE : gestion du bon format pour code postal
-                std::cout << "Entrez un code postal : ";
-                std::cin >> codeP;
+                cout << "Entrez un code postal : ";
+                cin >> codeP;
 
-                std::cout << "Entrez une ville : ";
-                std::cin.clear(); // réinitialise les indicateurs d'erreur de cin
-                std::cin.ignore(INT_MAX, '\n'); // ignore la ligne entrée
-                std::getline(cin,ville);
+                cout << "Entrez une ville : ";
+                cin.clear(); // réinitialise les indicateurs d'erreur de cin
+                cin.ignore(INT_MAX, '\n'); // ignore la ligne entrée
+                getline(cin,ville);
                 ville = to_upper(ville);
 
                 // COmpte pro ou privé
                 do
                 {
                     quit3 = true;
-                    std::cout << "Compte pro ou prive (1/2) ?  ";
-                    std::cin >> choicePro;
+                    cout << "Compte pro ou prive (1/2) ?  ";
+                    cin >> choicePro;
                     if (choicePro == 1)
                     {
                         quit3 = false;
-                        std::cout << "Entrez un mail : ";
-                        std::cin >> mail;
+                        cout << "Entrez un mail : ";
+                        cin >> mail;
 
-                        std::cout << "Entrez une entreprise : ";
-                        std::cin.clear(); // réinitialise les indicateurs d'erreur de cin
-                        std::cin.ignore(INT_MAX, '\n'); // ignore la ligne entrée
-                        std::getline(cin,entreprise);
+                        cout << "Entrez une entreprise : ";
+                        cin.clear(); // réinitialise les indicateurs d'erreur de cin
+                        cin.ignore(INT_MAX, '\n'); // ignore la ligne entrée
+                        getline(cin,entreprise);
                         entreprise = to_upper(entreprise);
 
                         // création instances de contacts:
@@ -304,13 +305,13 @@ int main()
                         do
                         {
                             bool_date = true;
-                            std::cout << "Entrez une date de naissance au format dd/mm/yyyy : ";
-                            std::cin >> std::get_time(&date, "%d/%m/%Y"); // utilisation de get_time pour lire la date au format spécifié
-                            if (std::cin.fail())
+                            cout << "Entrez une date de naissance au format dd/mm/yyyy : ";
+                            cin >> get_time(&date, "%d/%m/%Y"); // utilisation de get_time pour lire la date au format spécifié
+                            if (cin.fail())
                             {
-                                std::cerr << "Erreur dans le format de la date\n" << std::endl;
-                                std::cin.clear(); // réinitialise les indicateurs d'erreur de cin
-                                std::cin.ignore(INT_MAX, '\n'); // ignore la ligne entrée
+                                cerr << "Erreur dans le format de la date\n" << endl;
+                                cin.clear(); // réinitialise les indicateurs d'erreur de cin
+                                cin.ignore(INT_MAX, '\n'); // ignore la ligne entrée
                                 bool_date = false;
                             }
                         }while(!bool_date);
@@ -335,12 +336,12 @@ int main()
                 break;
 
             case 5:
-                std::cout << "Vous quittez l'interface" << std::endl;
+                cout << "Vous quittez l'interface" << endl;
                 quit = true;
                 break;
 
             default:
-                std::cout << "Vous avez mal entre l'option choisie" << std::endl;
+                cout << "Vous avez mal entre l'option choisie" << endl;
                 break;
         }
     }
