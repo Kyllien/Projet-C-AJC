@@ -3,6 +3,14 @@
 
 using namespace std;
 
+
+// Fonction qui permet la recherche et l'affichage de la recherche
+void get_recherche(string choice, string attribut)
+{
+
+}
+
+
 // Fonction qui permet la lecture de la bdd et l'afficher
 void get_table()
 {
@@ -78,9 +86,6 @@ void get_table()
             cout << contac1 << endl;
 
         }
-
-
-
     }
     sqlite3_finalize(stmt);
 }
