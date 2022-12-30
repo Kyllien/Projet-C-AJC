@@ -7,20 +7,18 @@
 class ContactPrive : public Contact
 {
     public:
-        ContactPrive(int,string,string,char,string,string);
+        ContactPrive(int,string,string,char,string ,string, int,string,string);
         virtual ~ContactPrive();
 
-        string Getadresse() { return adresse; }
-        void Setadresse(string val) { adresse = val; }
-        string GetdateNaissance() { return dateNaissance; }
-        void SetdateNaissance(string val) { dateNaissance = val; }
+        char* GetdateNaissance() { return &dateNaissance[0]; }
+        void SetdateNaissance(char* val) { dateNaissance = val; }
 
         string infos() override;
 
     protected:
 
     private:
-        string adresse;
+
         string dateNaissance;
 };
 

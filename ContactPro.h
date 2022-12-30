@@ -7,13 +7,12 @@
 class ContactPro : public Contact
 {
     public:
-        ContactPro(int, string, string, char, string, string, string );
+        ContactPro(int, string,string, char,string,string , string, int,string,string );
         virtual ~ContactPro();
-        string GetnomEntreprise() { return nomEntreprise; }
+
+        char* GetnomEntreprise() { return &nomEntreprise[0]; }
         void SetnomEntreprise(string val) { nomEntreprise= val; }
-        string GetadresseEntreprise() { return adresseEntreprise; }
-        void SetadresseEntreprise(string val) { adresseEntreprise = val; }
-        string Getemail() { return email; }
+        char* Getemail() { return &email[0]; }
         void Setemail(string val) { email = val; }
         string infos() override;
 
@@ -21,7 +20,6 @@ class ContactPro : public Contact
 
     private:
         string nomEntreprise;
-        string adresseEntreprise;
         string email;
 };
 
