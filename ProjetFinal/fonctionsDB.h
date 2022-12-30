@@ -1,7 +1,13 @@
 #ifndef FONCTIONSDB_H_INCLUDED
 #define FONCTIONSDB_H_INCLUDED
 
+#ifdef SQLITE3_H
+#include "sqlite3.h"
+#else
 #include "sql/sqlite3.h"
+#endif
+
+
 #include "Contact.h"
 #include "ContactPrive.h"
 #include "ContactPro.h"

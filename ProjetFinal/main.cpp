@@ -11,14 +11,78 @@
 #include "ContactPrive.h"
 #include "fonctionsDB.h"
 #include "fonctionsInterface.h"
+#include "fonctionsCSV.h"
+
+#include <cstdio>
+#include <chrono>
+#include <filesystem>
+#include <thread>
+
+//fichiers CSV à déposer dans 1 sous-dossier csv
+#define CSVPRO "./csv/newprofs.csv"
+#define CSVPRIVE "./csv/newprivates.csv"
 
 
 
 using namespace std;
 
 
+
+
 int main()
 {
+    // Thread pour surveillance et traitement des fichiers contact CSV:
+
+    // interval pour check des fichiers csv.
+    chrono::seconds interval(5);
+    chrono::seconds interval2(1);
+
+    // chemins à surveiller
+    filesystem::path filePro(CSVPRO);
+    filesystem::path filePrive(CSVPRIVE);
+
+    // Thread pour vérif et traitement des CSV
+    thread fileCheckingThread([&] {
+        while (true)
+        {
+
+
+
+            // si fichier existe : import + suppression
+            if (filesystem::exists(filePro))
+            {
+
+                CSVPROtoDB(filePro);
+                cout<<"imported 'newprofs.csv'"<<endl;
+                int result = remove(CSVPRO);
+                if (result != 0) {
+                    cout<<"an error occured during file deletion"<<endl;
+                    return 1;
+                }
+            }
+
+
+            // si fichier existe : import + suppression
+            if (filesystem::exists(filePrive))
+            {
+
+                CSVPRIVEtoDB(filePrive);
+                cout<<"imported 'newprivates.csv'"<<endl;
+                int result = remove(CSVPRIVE);
+                if (result != 0) {
+                    cout<<"an error occured during file deletion"<<endl;
+                    return 1;
+                }
+            }
+
+            // sleep pendant interval
+            this_thread::sleep_for(interval);
+        }
+    });
+
+
+    /******************** THREAD PRINCIPAL *******************/
+
     // Declaration Variables
     bool quit = false;
     bool quit2 = false;
@@ -129,7 +193,10 @@ int main()
 
 
                 std::cout << "Entrez le libelle de rue : ";
-                std::cin >> libelle;
+                std::cin.clear(); // réinitialise les indicateurs d'erreur de cin
+                std::cin.ignore(INT_MAX, '\n'); // ignore la ligne entrée
+                std::getline(cin,libelle);
+
 
                 // Gestion exception Complement d'adresse
                 do
@@ -230,5 +297,8 @@ int main()
                 break;
         }
     }
+
+
+    fileCheckingThread.detach();
     return 0;
 }
