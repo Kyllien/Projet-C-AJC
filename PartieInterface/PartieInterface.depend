@@ -1,9 +1,0 @@
-# depslib dependency file v1.0
-1672328196 source:c:\users\33640\onedrive\documents\projet-cpp-ajc\partieinterface\main.cpp
-	<iostream>
-	<string>
-	<cctype>
-	<ctime>
-	<iomanip>
-	<climits>
-
