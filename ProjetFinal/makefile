@@ -25,7 +25,7 @@ ARCHIVE=sortie.zip
 
 
 # Identifier tous les fichiers .c
-SRC=$(wildcard *.c)
+SRC=$(wildcard *.cpp)
 
 # Créer une liste des fichiers .o liée à la liste des fichiers .c
 OBJ=$(SRC:.c=.o)
@@ -37,21 +37,21 @@ all:$(EXEC)
 $(EXEC): $(OBJ)
 	# $@ : cible , ici le $(EXEC) qui vaut prog
 	# $^ : liste des dépendances , ici tous les .o
-	$(CC) -o $@ $^ $(CFLAGS) 
+	$(CCX) -o $@ $^ $(CFLAGS) 
 
 
 # %.o : tous les .o ; %.c : tousl es .c
 %.o:%.c
 	# $@ : cible ; $< : première dépendance
-	$(CC) -o $@ -c $< $(CFLAGS)
+	$(CCX) -o $@ -c $< $(CFLAGS)
 
 
 
 # main.o:main.c
-# 	$(CC) -o main.o -c main.c $(CFLAGS)
+# 	$(CCX) -o main.o -c main.c $(CFLAGS)
 
 # fonctions.o:fonctions.c
-# 	$(CC) -o fonctions.o -c fonctions.c $(CFLAGS)
+# 	$(CCX) -o fonctions.o -c fonctions.c $(CFLAGS)
 
 
 

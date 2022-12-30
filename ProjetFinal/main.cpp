@@ -15,7 +15,6 @@
 
 #include <cstdio>
 #include <chrono>
-#include <filesystem>
 #include <thread>
 
 //fichiers CSV à déposer dans 1 sous-dossier csv
@@ -38,8 +37,8 @@ int main()
     chrono::seconds interval2(1);
 
     // chemins à surveiller
-    filesystem::path filePro(CSVPRO);
-    filesystem::path filePrive(CSVPRIVE);
+//    filesystem::path filePro(CSVPRO);
+//    filesystem::path filePrive(CSVPRIVE);
 
     // Thread pour vérif et traitement des CSV
     thread fileCheckingThread([&] {
@@ -49,10 +48,11 @@ int main()
 
 
             // si fichier existe : import + suppression
-            if (filesystem::exists(filePro))
+            FILE* filePro = fopen(CSVPRO, "r");
+            if (filePro)
             {
 
-                CSVPROtoDB(filePro);
+                CSVPROtoDB(CSVPRO);
                 cout<<"imported 'newprofs.csv'"<<endl;
                 int result = remove(CSVPRO);
                 if (result != 0) {
@@ -63,10 +63,11 @@ int main()
 
 
             // si fichier existe : import + suppression
-            if (filesystem::exists(filePrive))
+            FILE* filePrive = fopen(CSVPRIVE, "r");
+            if (filePrive)
             {
 
-                CSVPRIVEtoDB(filePrive);
+                CSVPRIVEtoDB(CSVPRIVE);
                 cout<<"imported 'newprivates.csv'"<<endl;
                 int result = remove(CSVPRIVE);
                 if (result != 0) {

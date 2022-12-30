@@ -6,7 +6,7 @@
 int CSVPROtoDB(string filename)
 {
 
-
+//    cout<<"OPENING FILE : "<<filename<<endl;
     // Ouvrir fichier csv.
     ifstream file(filename);
     // Vérifier bonne ouverture du fichier
@@ -64,7 +64,7 @@ int CSVPROtoDB(string filename)
 
         ContactPro ctmp(id,nom,prenom,genre,entreprise,rue,complement,cp,ville,email);
 
-        cout<<ctmp<<endl<<endl;
+//        cout<<ctmp<<endl<<endl;
 
         // ajouter le contact à la BDD
         addContact(&ctmp);
@@ -82,7 +82,7 @@ int CSVPROtoDB(string filename)
 int CSVPRIVEtoDB(string filename)
 {
 
-
+//    cout<<"OPENING FILE : "<<filename<<endl;
     // Ouvrir fichier csv.
     ifstream file(filename);
     // Vérifier bonne ouverture du fichier
@@ -139,7 +139,7 @@ int CSVPRIVEtoDB(string filename)
 
         ContactPrive ctmp(id,nom,prenom,genre,rue,complement,cp,ville,dtnaissance);
 
-        cout<<ctmp<<endl<<endl;
+//        cout<<ctmp<<endl<<endl;
 
         // ajouter le contact à la BDD
         addContact(&ctmp);
