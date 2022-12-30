@@ -15,7 +15,7 @@ Contact::Contact(int id,string nom,string prenom,char genre,string rue,string co
 
 Contact::~Contact()
 {
-    cout<<"suppression contact "<<this->nom<<endl;
+    //cout<<"suppression contact "<<this->nom<<endl;
     //dtor
 }
 

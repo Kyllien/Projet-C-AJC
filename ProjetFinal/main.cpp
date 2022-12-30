@@ -62,7 +62,7 @@ int main()
         {
             // Liste les contacts
             case 1:
-
+                get_table();
                 break;
 
             // Recherche à partir de critères
@@ -180,6 +180,7 @@ int main()
                         mail);
 
                         addContact(pro1);
+                        delete pro1;
 
                     }
                     else if (choicePro == 2)

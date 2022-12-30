@@ -3,19 +3,86 @@
 
 using namespace std;
 
-// Fonction qui permet la lecture de la bdd
+// Fonction qui permet la lecture de la bdd et l'afficher
 void get_table()
 {
     sqlite3 *db = ouvertureDB();
 
-    // Récupérer la table "ma_table"
+    // Récupérer la table
     const char *sql = "SELECT * FROM contacts";
     sqlite3_stmt *stmt;
-    rc = sqlite3_prepare_v2(db, sql, -1, &stmt, nullptr);
+    int rc = sqlite3_prepare_v2(db, sql, -1, &stmt, nullptr);
     if (rc)
     {
         cerr << "Erreur lors de la préparation de la requête : " << sqlite3_errmsg(db) << endl;
+
     }
+
+    // Parcourir les lignes de la table
+    while (sqlite3_step(stmt) == SQLITE_ROW)
+    {
+        int id = sqlite3_column_int(stmt, 0);
+
+        // Récupérer les valeurs de chaque colonne de la ligne courante
+        const unsigned char *nom = sqlite3_column_text(stmt, 1);
+        string s_nom(nom, nom + strlen((const char *)nom));
+
+        const unsigned char *prenom = sqlite3_column_text(stmt, 2);
+        string s_prenom(prenom, prenom + strlen((const char *)prenom));
+
+        char *sexe = (char *)sqlite3_column_text(stmt, 3);
+
+        const unsigned char *entreprise = sqlite3_column_text(stmt, 4);
+
+        const unsigned char *libelle = sqlite3_column_text(stmt, 5);
+        string s_libelle(libelle, libelle + strlen((const char *)libelle));
+
+        const unsigned char *complement = sqlite3_column_text(stmt, 6);
+        string s_complement;
+        if (complement != NULL)
+        {
+            string str_complement(complement, complement + strlen((const char *)complement));
+            s_complement = str_complement;
+        }
+        else
+        {
+            s_complement = "";
+        }
+
+        int codeP = sqlite3_column_int(stmt, 7);
+
+        const unsigned char *ville = sqlite3_column_text(stmt, 8);
+        string s_ville(ville, ville + strlen((const char *)ville));
+
+        const unsigned char *mail = sqlite3_column_text(stmt, 9);
+
+        const unsigned char *date = sqlite3_column_text(stmt, 10);
+
+        // Gestion si c'est un compte pro ou prive pour ensuite créer un objet contact
+
+        if (entreprise != NULL)
+        {
+            string s_mail(mail, mail + strlen((const char *)mail));
+            string s_entreprise(entreprise, entreprise + strlen((const char *)entreprise));
+
+            ContactPro* contac = new ContactPro(id,s_nom,s_prenom,sexe[0],s_entreprise,s_libelle,s_complement,codeP,s_ville,
+                        s_mail);
+
+            cout << *contac << endl;
+
+        }
+        else
+        {
+            string s_date(date, date + strlen((const char *)date));
+            ContactPrive contac1(id,s_nom,s_prenom,sexe[0],s_libelle,s_complement,codeP,s_ville,s_date);
+            cout << contac1 << endl;
+
+        }
+
+
+
+    }
+    sqlite3_finalize(stmt);
 }
 
 

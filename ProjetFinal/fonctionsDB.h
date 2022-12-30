@@ -11,7 +11,8 @@
 
 #define DB "donnee/dbContacts.db"
 
-void supprimerElement(int );
+void get_table();
+void supprimerElement(int);
 void addContact(Contact*);
 sqlite3* ouvertureDB();
 void fermetureDB(sqlite3*);
