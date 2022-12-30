@@ -4,6 +4,14 @@
 
 *.xlsx
 
+*.vscode
+*.o
+*.cbp
+*.depend
+*.layout
+bin/
+
+
 # All .exe from sqlite
 *.exe
 
