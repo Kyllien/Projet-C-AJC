@@ -11,79 +11,14 @@
 #include "ContactPrive.h"
 #include "fonctionsDB.h"
 #include "fonctionsInterface.h"
-#include "fonctionsCSV.h"
-
-#include <cstdio>
-#include <chrono>
-#include <thread>
-
-//fichiers CSV à déposer dans 1 sous-dossier csv
-#define CSVPRO "./csv/newprofs.csv"
-#define CSVPRIVE "./csv/newprivates.csv"
 
 
 
 using namespace std;
 
 
-
-
 int main()
 {
-    // Thread pour surveillance et traitement des fichiers contact CSV:
-
-    // interval pour check des fichiers csv.
-    chrono::seconds interval(5);
-    chrono::seconds interval2(1);
-
-    // chemins à surveiller
-//    filesystem::path filePro(CSVPRO);
-//    filesystem::path filePrive(CSVPRIVE);
-
-    // Thread pour vérif et traitement des CSV
-    thread fileCheckingThread([&] {
-        while (true)
-        {
-
-
-
-            // si fichier existe : import + suppression
-            FILE* filePro = fopen(CSVPRO, "r");
-            if (filePro)
-            {
-
-                CSVPROtoDB(CSVPRO);
-                cout<<"imported 'newprofs.csv'"<<endl;
-                int result = remove(CSVPRO);
-                if (result != 0) {
-                    cout<<"an error occured during file deletion"<<endl;
-                    return 1;
-                }
-            }
-
-
-            // si fichier existe : import + suppression
-            FILE* filePrive = fopen(CSVPRIVE, "r");
-            if (filePrive)
-            {
-
-                CSVPRIVEtoDB(CSVPRIVE);
-                cout<<"imported 'newprivates.csv'"<<endl;
-                int result = remove(CSVPRIVE);
-                if (result != 0) {
-                    cout<<"an error occured during file deletion"<<endl;
-                    return 1;
-                }
-            }
-
-            // sleep pendant interval
-            this_thread::sleep_for(interval);
-        }
-    });
-
-
-    /******************** THREAD PRINCIPAL *******************/
-
     // Declaration Variables
     bool quit = false;
     bool quit1;
@@ -344,8 +279,5 @@ int main()
                 break;
         }
     }
-
-
-    fileCheckingThread.detach();
     return 0;
 }
