@@ -2,12 +2,8 @@
 #include "ContactPro.h"
 #include "ContactPrive.h"
 
+
 #include "fonctionsDB.h"
-
-
-
-
-
 
 
 int main()

@@ -8,25 +8,13 @@ void addContact(Contact* monContact)
     int rc;
     sqlite3_stmt *stmt=NULL;
 
-/*
-0    IdContact
-1    Nom
-2    Prenom
-3    Sexe
-4    Entreprise
-5    rue
-6    Complement
-7    cp
-8    Ville
-9    mail
-10   dtNaissance
-*/
+
 
     //ID Nom Prenom Sexe Entreprise rue Complement cp Ville mail dtNaissance
     //0  1   2      3    4          5   6          7  8     9     10
-    //char* requete = "insert into CONTACTS values (NULL,'WALLACE','Marcel','M','Renault','69 rue du quai','',78888,'GUYANCOURT','marcel.wallace@hotmail.com','');";
     char* requete= "insert into CONTACTS (IdContact,Nom,Prenom,Sexe,Entreprise,rue,Complement,cp,Ville,mail,dtNaissance) \
                         values (NULL, ?,?,?,?,?,?,?,?,?,?);";
+
     // preparer la requete
     rc = sqlite3_prepare_v2(db,requete,500, &stmt,NULL);
     if (rc != SQLITE_OK)
