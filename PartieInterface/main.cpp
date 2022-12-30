@@ -10,49 +10,47 @@ using namespace std;
 
 // Fonction qui permet de supprimer un élement de la bdd
 int supprimerElement(const std::string &nomBaseDeDonnees, int id) {
-  sqlite3 *db;
-  int rc;
-  sqlite3_stmt *stmt;
+    sqlite3 *db;
+    int rc;
+    sqlite3_stmt *stmt;
 
-  // Ouvre la base de données
-  rc = sqlite3_open(nomBaseDeDonnees.c_str(), &db);
-  if (rc) {
-    std::cerr << "Erreur lors de l'ouverture de la base de données : " << sqlite3_errmsg(db) << std::endl;
-    return 1;
-  }
+    // Ouvre la base de données
+    rc = sqlite3_open(nomBaseDeDonnees.c_str(), &db);
+    if (rc)
+    {
+        std::cerr << "Erreur lors de l'ouverture de la base de données : " << sqlite3_errmsg(db) << std::endl;
+    }
 
-  // Prépare la requête de suppression
-  std::string sql = "DELETE FROM ma_table WHERE id=?";
-  rc = sqlite3_prepare_v2(db, sql.c_str(), -1, &stmt, NULL);
-  if (rc) {
-    std::cerr << "Erreur lors de la préparation de la requête : " << sqlite3_errmsg(db) << std::endl;
-    sqlite3_close(db);
-    return 1;
-  }
+    // Prépare la requête de suppression
+    std::string sql = "DELETE FROM contacts WHERE id=?";
+    rc = sqlite3_prepare_v2(db, sql.c_str(), -1, &stmt, NULL);
+    if (rc)
+    {
+        std::cerr << "Erreur lors de la préparation de la requête : " << sqlite3_errmsg(db) << std::endl;
+        sqlite3_close(db);
+    }
 
-  // Lie la valeur de l'ID à la requête
-  rc = sqlite3_bind_int(stmt, 1, id);
-  if (rc) {
-    std::cerr << "Erreur lors du liage de la valeur de l'ID : " << sqlite3_errmsg(db) << std::endl;
+    // Lie la valeur de l'ID à la requête
+    rc = sqlite3_bind_int(stmt, 1, id);
+    if (rc)
+    {
+        std::cerr << "Erreur lors du liage de la valeur de l'ID : " << sqlite3_errmsg(db) << std::endl;
+        sqlite3_finalize(stmt);
+        sqlite3_close(db);
+    }
+
+    // Exécute la requête
+    rc = sqlite3_step(stmt);
+    if (rc != SQLITE_DONE)
+    {
+        std::cerr << "Erreur lors de l'exécution de la requête : " << sqlite3_errmsg(db) << std::endl;
+        sqlite3_finalize(stmt);
+        sqlite3_close(db);
+    }
+
+    // Finalisez et fermez la requête et la connexion à la base de données
     sqlite3_finalize(stmt);
     sqlite3_close(db);
-    return 1;
-  }
-
-  // Exécute la requête
-  rc = sqlite3_step(stmt);
-  if (rc != SQLITE_DONE) {
-    std::cerr << "Erreur lors de l'exécution de la requête : " << sqlite3_errmsg(db) << std::endl;
-    sqlite3_finalize(stmt);
-    sqlite3_close(db);
-    return 1;
-  }
-
-  // Finalisez et fermez la requête et la connexion à la base de données
-  sqlite3_finalize(stmt);
-  sqlite3_close(db);
-
-  return 0;
 }
 
 // Fonction qui permet de passer en majuscule le premier caractère d'un string
@@ -209,6 +207,7 @@ int main()
                 // Gestion de la date au bon format
                 do
                 {
+                    bool_date = true;
                     std::cout << "Entrez une date de naissance au format dd/mm/yyyy : ";
                     std::cin >> std::get_time(&date, "%d/%m/%Y"); // utilisation de get_time pour lire la date au format spécifié
                     if (std::cin.fail())
@@ -216,13 +215,9 @@ int main()
                         std::cerr << "Erreur dans le format de la date\n" << std::endl;
                         std::cin.clear(); // réinitialise les indicateurs d'erreur de cin
                         std::cin.ignore(INT_MAX, '\n'); // ignore la ligne entrée
-                        bool_date = true;
-                    }
-                    else
-                    {
                         bool_date = false;
                     }
-                }while(bool_date);
+                }while(!bool_date);
 
 
 
