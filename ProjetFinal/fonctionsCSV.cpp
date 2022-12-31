@@ -75,6 +75,11 @@ int CSVPROtoDB(string filename)
     // Close the file
     file.close();
 
+    int result = remove(&filename[0]);
+    if (result != 0) {
+        cout<<"an error occured during file deletion"<<endl;
+    }
+
     return 0;
 }
 
@@ -149,6 +154,11 @@ int CSVPRIVEtoDB(string filename)
 
     // Close the file
     file.close();
+
+    int result = remove(&filename[0]);
+    if (result != 0) {
+        cout<<"an error occured during file deletion"<<endl;
+    }
 
     return 0;
 }

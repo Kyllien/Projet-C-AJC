@@ -18,8 +18,8 @@
 #include <thread>
 
 //fichiers CSV à déposer dans 1 sous-dossier csv
-#define CSVPRO "./csv/newprofs.csv"
-#define CSVPRIVE "./csv/newprivates.csv"
+#define CSVPRO "csv/newprofs.csv"
+#define CSVPRIVE "csv/newprivates.csv"
 
 
 
@@ -54,11 +54,7 @@ int main()
 
                 CSVPROtoDB(CSVPRO);
                 cout<<"imported 'newprofs.csv'"<<endl;
-                int result = remove(CSVPRO);
-                if (result != 0) {
-                    cout<<"an error occured during file deletion"<<endl;
-                    return 1;
-                }
+
             }
 
 
@@ -69,11 +65,7 @@ int main()
 
                 CSVPRIVEtoDB(CSVPRIVE);
                 cout<<"imported 'newprivates.csv'"<<endl;
-                int result = remove(CSVPRIVE);
-                if (result != 0) {
-                    cout<<"an error occured during file deletion"<<endl;
-                    return 1;
-                }
+
             }
 
             // sleep pendant interval
