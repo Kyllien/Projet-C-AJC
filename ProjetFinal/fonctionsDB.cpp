@@ -4,26 +4,18 @@
 using namespace std;
 
 
-// Fonction qui permet la recherche et l'affichage de la recherche
-void get_recherche(string choice, string attribut)
-{
 
-}
-
-
-// Fonction qui permet la lecture de la bdd et l'afficher
-void get_table()
+// Fonction qui permet la lecture de la bdd et l'afficher en fonction de la requete
+void get_table(const char *sql)
 {
     sqlite3 *db = ouvertureDB();
 
     // Récupérer la table
-    const char *sql = "SELECT * FROM contacts";
     sqlite3_stmt *stmt;
     int rc = sqlite3_prepare_v2(db, sql, -1, &stmt, nullptr);
     if (rc)
     {
         cerr << "Erreur lors de la préparation de la requête : " << sqlite3_errmsg(db) << endl;
-
     }
 
     // Parcourir les lignes de la table
@@ -170,7 +162,7 @@ void addContact(Contact* monContact)
     if (cpro) //l'objet casté est bien de type ContactPro
     {
         // création requete pour ajout d'un contact pro;
-        cout<<"contact PRO!"<<endl;
+        //cout<<"contact PRO!"<<endl;
         // ajout d'email et nom entreprise
         sqlite3_bind_text(stmt,4,cpro->GetnomEntreprise(),strlen(cpro->GetnomEntreprise()),NULL);
         sqlite3_bind_text(stmt,9,cpro->Getemail(),strlen(cpro->Getemail()),NULL);
@@ -183,7 +175,7 @@ void addContact(Contact* monContact)
         if (cprive)
         {
             // création requete pour ajout d'un contact privé;
-            cout<<"contact PRIVE!"<<endl;
+            //cout<<"contact PRIVE!"<<endl;
             // ajout de date de naissance
             sqlite3_bind_text(stmt,10,cprive->GetdateNaissance(),strlen(cprive->GetdateNaissance()),NULL);
             sqlite3_bind_null(stmt,4);
@@ -232,8 +224,7 @@ sqlite3* ouvertureDB()
             throw MonException(sqlite3_errmsg(db));
             //throw MonException(2);
         }
-        else
-            cout<<"openened DB successfully"<<endl;
+
 
         return db;
 
@@ -258,10 +249,7 @@ void fermetureDB(sqlite3* db)
             throw MonException(sqlite3_errmsg(db));
 
         }
-        else
-        {
-            cout<<"fermeture DB OK."<<endl;
-        }
+
     }
 
     catch(const MonException& ex)
