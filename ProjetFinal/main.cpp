@@ -29,40 +29,55 @@ using namespace std;
 
 int main()
 {
-    // Thread pour surveillance et traitement des fichiers contact CSV:
+     // Thread pour surveillance et traitement des fichiers contact CSV:
 
     // interval pour check des fichiers csv.
     chrono::seconds interval(5);
     chrono::seconds interval2(1);
 
-    // chemins à surveiller
-//    filesystem::path filePro(CSVPRO);
-//    filesystem::path filePrive(CSVPRIVE);
 
     // Thread pour vérif et traitement des CSV
     thread fileCheckingThread([&] {
         while (true)
         {
 
+            const char *filename_pro = "donnee/newprofs.csv";
+            const char *filename_prive = "donnee/newprivates.csv";
+
+            ifstream filePro(filename_pro);
+            ifstream filePrive(filename_prive);
 
 
-            // si fichier existe : import + suppression
-            FILE* filePro = fopen(CSVPRO, "r");
-            if (filePro)
+            if (filePro.good())
             {
+                //cout<< "fichier newpros.csv présent.";
+                CSVPROtoDB(filePro);
+                // Close the file
+                filePro.close();
 
-                CSVPROtoDB(CSVPRO);
-                cout<<"imported 'newprofs.csv'"<<endl;
+                // Attempt to delete the file
+                int result_pro = remove(filename_pro);
+                if (result_pro != 0) {
+                    cerr << "Error: Failed to delete file." << endl;
+                    return 1;
+                }
             }
 
 
-            // si fichier existe : import + suppression
-            FILE* filePrive = fopen(CSVPRIVE, "r");
-            if (filePrive)
-            {
 
-                CSVPRIVEtoDB(CSVPRIVE);
-                cout<<"imported 'newprivates.csv'"<<endl;
+            if (filePrive.good())
+            {
+                // cout<< "fichier newpros.csv présent.";
+                CSVPRIVEtoDB(filePrive);
+                // Close the file
+                filePrive.close();
+
+                // Attempt to delete the file
+                int result_prive = remove(filename_prive);
+                if (result_prive != 0) {
+                    cerr << "Error: Failed to delete file." << endl;
+                    return 1;
+                }
 
             }
 
@@ -70,6 +85,7 @@ int main()
             this_thread::sleep_for(interval);
         }
     });
+
 
 
     /******************** THREAD PRINCIPAL *******************/

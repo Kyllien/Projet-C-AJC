@@ -15,7 +15,7 @@
 
 using namespace std;
 
-int CSVPROtoDB(string);
-int CSVPRIVEtoDB(string);
+int CSVPROtoDB(ifstream&);
+int CSVPRIVEtoDB(ifstream&);
 
 #endif // FONCTIONSCSV_H_INCLUDED

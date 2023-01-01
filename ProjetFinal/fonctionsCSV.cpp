@@ -1,20 +1,20 @@
 
 #include "fonctionsCSV.h"
 
+// structure table dans dbContacts:
+//ID Nom Prenom Sexe Entreprise rue Complement cp Ville mail dtNaissance
+//0  1   2      3    4          5   6          7  8     9     10
+
+// entête fichier CSV Pro:
+//﻿Identifiant;Nom;Prénom;Sexe;Entreprise;Libellé;Complément;Code Postal;Ville;Mail de Contact
+
+// entête CSV Private
+//﻿Identifiant;Nom;Prénom;Sexe;Libellé;Complément;Code Postal;Ville;Date de Naissance
 
 
-int CSVPROtoDB(string filename)
+
+int CSVPROtoDB(ifstream& file)
 {
-
-//    cout<<"OPENING FILE : "<<filename<<endl;
-    // Ouvrir fichier csv.
-    ifstream file(filename);
-    // Vérifier bonne ouverture du fichier
-    if (!file.is_open()) {
-        cerr << "Error: Failed to open file." << endl;
-    }
-
-
     // lire ligne par ligne
     string line;
 
@@ -29,17 +29,10 @@ int CSVPROtoDB(string filename)
     // itérer sur les lignes suivantes pour récupérer les contacts
     while (getline(file, line))
     {
-
-
         // split chaque ligne avec un délimiteur  ;
         stringstream ss(line);
         string field;
 
-        //ID Nom Prenom Sexe Entreprise rue Complement cp Ville mail dtNaissance
-        //0  1   2      3    4          5   6          7  8     9     10
-
-        // entête CSV Pro:
-        //﻿Identifiant;Nom;Prénom;Sexe;Entreprise;Libellé;Complément;Code Postal;Ville;Mail de Contact
         int i(0);
         while (getline(ss, field, ';'))
         {
@@ -60,41 +53,18 @@ int CSVPROtoDB(string filename)
             }
             i++;
         }
-        //cout<<endl<<endl;
 
         ContactPro ctmp(id,nom,prenom,genre,entreprise,rue,complement,cp,ville,email);
-
-//        cout<<ctmp<<endl<<endl;
-
-        // ajouter le contact à la BDD
         addContact(&ctmp);
 
-    }
-
-
-    // Close the file
-    file.close();
-
-    int result = remove(&filename[0]);
-    if (result != 0) {
-        cout<<"an error occured during file deletion"<<endl;
     }
 
     return 0;
 }
 
 
-int CSVPRIVEtoDB(string filename)
+int CSVPRIVEtoDB(ifstream& file)
 {
-
-//    cout<<"OPENING FILE : "<<filename<<endl;
-    // Ouvrir fichier csv.
-    ifstream file(filename);
-    // Vérifier bonne ouverture du fichier
-    if (!file.is_open()) {
-        cerr << "Error: Failed to open file." << endl;
-    }
-
 
     // lire ligne par ligne
     string line;
@@ -116,11 +86,7 @@ int CSVPRIVEtoDB(string filename)
         stringstream ss(line);
         string field;
 
-        //ID Nom Prenom Sexe Entreprise rue Complement cp Ville mail dtNaissance
-        //0  1   2      3    4          5   6          7  8     9     10
 
-        // entête CSV Private
-        //﻿Identifiant;Nom;Prénom;Sexe;Libellé;Complément;Code Postal;Ville;Date de Naissance
         int i(0);
         while (getline(ss, field, ';'))
         {
@@ -140,24 +106,10 @@ int CSVPRIVEtoDB(string filename)
             }
             i++;
         }
-        //cout<<endl<<endl;
 
         ContactPrive ctmp(id,nom,prenom,genre,rue,complement,cp,ville,dtnaissance);
-
-//        cout<<ctmp<<endl<<endl;
-
-        // ajouter le contact à la BDD
         addContact(&ctmp);
 
-    }
-
-
-    // Close the file
-    file.close();
-
-    int result = remove(&filename[0]);
-    if (result != 0) {
-        cout<<"an error occured during file deletion"<<endl;
     }
 
     return 0;
