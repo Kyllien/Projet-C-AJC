@@ -187,7 +187,7 @@ void addContact(Contact* monContact)
 
 
     rc = sqlite3_step(stmt);
-    printf("rc:%d",rc);
+//    printf("rc:%d",rc);
 
     try
     {
